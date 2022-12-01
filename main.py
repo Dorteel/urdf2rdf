@@ -22,9 +22,9 @@ class robot_graph():
         self.robotKG = Graph().add((self.robotName, RDF.type, self.URDF.Robot))
         self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.model_root.attrib['name'])))
         # First find all the links and create them in the knowledgeBase
-        self.find_links()
-        #self.find_joints()
-        print(self.robotKG.serialize(format='ttl'))
+        #self.find_links()
+        self.find_joints()
+        #print(self.robotKG.serialize(format='ttl'))
 
 
     def get_namespaces(self):
@@ -52,14 +52,20 @@ class robot_graph():
     def find_joints(self):
         '''
         Looks through all the joints and add them to the KG
-        So far it only looks at the name of the link and the mass value if specified
+        So far it only looks at the name of the joint and the mass value if specified
         '''
-        for joint in self.model_root.findall(".//joint"):
+
+        for node in self.model_root.findall("./transmission/joint"):
+            print(node)
+            #if node.tag == 'transmission':
+            #    print(node.getchildren())
+
+        for joint in self.model_root.findall(".//*[@tag='transmission']/joint"):
             # Add the joint with it's name to the Knowledge Graph
             #print(joint.attrib['type'])
             self.robotKG.add((self.robotNS[joint.attrib['name']], RDF.type, self.URDF[joint.attrib['type'].capitalize() + 'Joint']))
             self.robotKG.add((self.robotNS[joint.attrib['name']], self.URDF.hasURDFName, Literal(joint.attrib['name'])))
-
+            #print(joint)
 
 
 #robot = robot_graph('test/model.urdf')
