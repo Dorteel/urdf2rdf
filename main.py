@@ -3,6 +3,7 @@ from rdflib import Graph, Literal, RDF, URIRef, Namespace, XSD
 from rdflib.namespace import SOSA
 from io import StringIO
 
+
 class robot_graph():
     def __init__(self, model_path) -> None:
         # URDF model related variables
@@ -15,16 +16,19 @@ class robot_graph():
         #print(self.model_root.data)
         self.namespaces = self.get_namespaces()
         # Graph
+        self.KnowRob = Namespace("http://knowrob.org/kb/knowrob.owl#")
         self.URDF = Namespace("http://knowrob.org/kb/urdf.owl#")
         self.SOMA = Namespace("http://www.ease-crc.org/ont/SOMA.owl#")
         self.robotNS = Namespace("http://example.org/" + self.model_root.attrib['name'] + '/')
         self.robotName = URIRef("http://example.org/" + self.model_root.attrib['name'])
         self.robotKG = Graph().add((self.robotName, RDF.type, self.URDF.Robot))
+        self.robotKG = Graph().add((self.robotName, RDF.type, SOSA.Platform))
         self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.model_root.attrib['name'])))
         # First find all the links and create them in the knowledgeBase
         self.find_links()
         self.find_joints()
-        print(self.robotKG.serialize(format='ttl'))
+        self.find_sensors()
+        #print(self.robotKG.serialize(format='ttl'))
 
 
     def get_namespaces(self):
@@ -81,11 +85,10 @@ class robot_graph():
         '''
 
         # Transmission joints are treated separately
-        for node in self.model_root.findall("./transmission/joint"):
-            #print(node)
-            pass
-            #if node.tag == 'transmission':
-            #    print(node.getchildren())
+        for actuator in self.model_root.findall("./transmission/actuator"):
+            actNode = self.robotNS[actuator.attrib['name']] # Create a node
+            self.robotKG.add((actNode, RDF.type, SOSA.Actuator))    # Add as actuator
+            self.robotKG.add((self.robotName, SOSA.hosts, actNode)) # Add as part of the robot
 
         for joint in self.model_root.findall("./joint"):
             # Add the joint with it's name to the Knowledge Graph
@@ -109,11 +112,23 @@ class robot_graph():
         '''
         Adds the sensors and their properties to the graph
         http://sdformat.org/spec?ver=1.5&elem=sensor
+        Considered sensors: http://wiki.ros.org/urdf/XML/sensor/proposals
+        Uses sosa:Sensor
         '''
-        pass
-#robot = robot_graph('test/model.urdf')
-#robot = robot_graph('test/test.urdf')
-#robot = robot_graph('test/baxter.urdf')
+        for sensor in self.model_root.findall(".//sensor"):
+            sensNode = self.robotNS[sensor.attrib['name']] # Create a node
+            self.robotKG.add((sensNode, RDF.type, SOSA.Sensor))    # Add as sensor
+            self.robotKG.add((self.robotName, SOSA.hosts, sensNode)) # Add as part of the robot
+            self.robotKG.add((sensNode, RDF.type, self.KnowRob.SensorDevice)) 
+            # Add the properties of the sensor
+            type = sensor.attrib['type']
+            if type == 'ray':
+                ray = sensor.find('ray')
+                print(ray.getchildren())
+            elif type == 'camera':
+                pass
+            elif type == 'imu':
+                pass
 
 if __name__ == "__main__":
     robots = ['test/model.urdf', 'test/turtlebot3_burger.urdf', 'test/baxter.urdf']
