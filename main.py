@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from rdflib import Graph, Literal, RDF, URIRef, Namespace, XSD
-from rdflib.namespace import SOSA
+from rdflib.namespace import SOSA, RDFS, OWL
 from io import StringIO
 
 
@@ -11,9 +11,7 @@ class robot_graph():
         self.model = ET.parse(model_path)
         self.model_root = self.model.getroot()
         assert self.model_root.tag == 'robot', "Root is not robot! Check URDF file!"
-        #self.linkAttributes = ['name']
-        # Deal with arguments
-        #print(self.model_root.data)
+
         self.namespaces = self.get_namespaces()
         # Graph
         self.KnowRob = Namespace("http://knowrob.org/kb/knowrob.owl#")
@@ -24,6 +22,9 @@ class robot_graph():
         self.robotKG = Graph().add((self.robotName, RDF.type, self.URDF.Robot))
         self.robotKG = Graph().add((self.robotName, RDF.type, SOSA.Platform))
         self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.model_root.attrib['name'])))
+        # Adding some ontology alignment statement
+        self.robotKG.add((self.KnowRob.SensorDevice, OWL.sameAs, SOSA.Sensor))
+        self.robotKG.add((self.URDF.Robot, RDFS.subClassOf, SOSA.Platform))
         # First find all the links and create them in the knowledgeBase
         self.find_links()
         self.find_joints()
@@ -137,7 +138,7 @@ class robot_graph():
                     maxRange = Literal(rangeElem.find("max").text, datatype=float)
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, minRange))
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, maxRange)) 
-                
+
             elif sensortype.tag == 'camera':
                 # Relevant fields are: resolution
                 pass #print(sensortype.getchildren())
