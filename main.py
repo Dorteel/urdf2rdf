@@ -28,7 +28,7 @@ class robot_graph():
         self.find_links()
         self.find_joints()
         self.find_sensors()
-        #print(self.robotKG.serialize(format='ttl'))
+        print(self.robotKG.serialize(format='ttl'))
 
 
     def get_namespaces(self):
@@ -133,8 +133,8 @@ class robot_graph():
                 # Relevant fields are: samples, minRange, maxRange, resolution
                 rangeElem = sensortype.find('range')
                 if rangeElem:
-                    minRange = Literal(rangeElem.find("min").text)
-                    maxRange = Literal(rangeElem.find("max").text)
+                    minRange = Literal(rangeElem.find("min").text, datatype=float)
+                    maxRange = Literal(rangeElem.find("max").text, datatype=float)
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, minRange))
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, maxRange)) 
                 
@@ -151,7 +151,7 @@ class robot_graph():
                 pass #print(sensor.find(sensortype.tag).getchildren())
 
 if __name__ == "__main__":
-    robots = ['test/model.urdf', 'test/turtlebot3_burger.urdf', 'test/pr2.urdf']
+    robots = ['test/turtlebot3_burger.urdf']
     for robot in robots:
         print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
         robot_graph(robot)
