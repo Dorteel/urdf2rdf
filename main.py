@@ -115,23 +115,43 @@ class robot_graph():
         Considered sensors: http://wiki.ros.org/urdf/XML/sensor/proposals
         Uses sosa:Sensor
         '''
+        sensorList = ["ray", "camera", "imu", "depth", "contact"]
+        for sensorName in sensorList:
+            sensorType = Literal(sensorName + "Sensor")
+            self.robotKG.add((self.robotNS.sensorType, RDF.type, SOSA.Sensor))
+            self.robotKG.add((self.robotNS.sensorType, RDF.type, self.KnowRob.SensorDevice))
         for sensor in self.model_root.findall(".//sensor"):
             sensNode = self.robotNS[sensor.attrib['name']] # Create a node
             self.robotKG.add((sensNode, RDF.type, SOSA.Sensor))    # Add as sensor
             self.robotKG.add((self.robotName, SOSA.hosts, sensNode)) # Add as part of the robot
             self.robotKG.add((sensNode, RDF.type, self.KnowRob.SensorDevice)) 
             # Add the properties of the sensor
-            type = sensor.attrib['type']
-            if type == 'ray':
-                ray = sensor.find('ray')
-                print(ray.getchildren())
-            elif type == 'camera':
-                pass
-            elif type == 'imu':
-                pass
+            sensortype = sensor.find(sensor.attrib['type'])
+            if not sensortype: continue
+            self.robotKG.add((sensNode, RDF.type, self.robotNS[sensor.attrib['type']]))
+            if sensortype.tag == 'ray':
+                # Relevant fields are: samples, minRange, maxRange, resolution
+                rangeElem = sensortype.find('range')
+                if rangeElem:
+                    minRange = Literal(rangeElem.find("min").text)
+                    maxRange = Literal(rangeElem.find("max").text)
+                    self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, minRange))
+                    self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, maxRange)) 
+                
+            elif sensortype.tag == 'camera':
+                # Relevant fields are: resolution
+                pass #print(sensortype.getchildren())
+            elif sensortype.tag == 'imu':
+                pass #print(sensortype.getchildren())   
+            elif sensortype.tag == 'depth':
+                pass #print(sensor.find(sensortype.tag).getchildren())
+            elif sensortype.tag == 'contact':
+                pass #print(sensor.find(sensortype.tag).getchildren())
+            else:
+                pass #print(sensor.find(sensortype.tag).getchildren())
 
 if __name__ == "__main__":
-    robots = ['test/model.urdf', 'test/turtlebot3_burger.urdf', 'test/baxter.urdf']
+    robots = ['test/model.urdf', 'test/turtlebot3_burger.urdf', 'test/pr2.urdf']
     for robot in robots:
         print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
         robot_graph(robot)
