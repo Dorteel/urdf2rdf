@@ -14,14 +14,19 @@ class robot_graph():
 
         self.namespaces = self.get_namespaces()
         # Graph
+        self.name = self.model_root.attrib['name']
         self.KnowRob = Namespace("http://knowrob.org/kb/knowrob.owl#")
         self.URDF = Namespace("http://knowrob.org/kb/urdf.owl#")
         self.SOMA = Namespace("http://www.ease-crc.org/ont/SOMA.owl#")
-        self.robotNS = Namespace("http://example.org/" + self.model_root.attrib['name'] + '/')
-        self.robotName = URIRef("http://example.org/" + self.model_root.attrib['name'])
+        self.robotNS = Namespace("http://example.org/" + self.name + '/')
+        self.robotName = URIRef("http://example.org/" + self.name)
         self.robotKG = Graph().add((self.robotName, RDF.type, self.URDF.Robot))
-        self.robotKG = Graph().add((self.robotName, RDF.type, SOSA.Platform))
-        self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.model_root.attrib['name'])))
+        self.robotKG.bind('urdf', self.URDF)
+        self.robotKG.bind('knowrob', self.KnowRob)
+        self.robotKG.bind('self', self.robotNS)
+        self.robotKG.bind('soma', self.SOMA)
+        self.robotKG.add((self.robotName, RDF.type, SOSA.Platform))
+        self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.name)))
         # Adding some ontology alignment statement
         self.robotKG.add((self.KnowRob.SensorDevice, OWL.sameAs, SOSA.Sensor))
         self.robotKG.add((self.URDF.Robot, RDFS.subClassOf, SOSA.Platform))
@@ -29,10 +34,14 @@ class robot_graph():
         self.find_links()
         self.find_joints()
         self.find_sensors()
-        print(self.robotKG.serialize(format='ttl'))
+        # Save the knowledgeGraph in the output folder
+        print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
 
 
     def get_namespaces(self):
+        '''
+        Returns the namespaces defined in the URDF file
+        '''
         f = open(self.model_path, "r")
         xml_data = f.read() 
         my_namespaces = dict([node for _, node in ET.iterparse(StringIO(xml_data), events=['start-ns'])])
@@ -134,8 +143,8 @@ class robot_graph():
                 # Relevant fields are: samples, minRange, maxRange, resolution
                 rangeElem = sensortype.find('range')
                 if rangeElem:
-                    minRange = Literal(rangeElem.find("min").text, datatype=float)
-                    maxRange = Literal(rangeElem.find("max").text, datatype=float)
+                    minRange = Literal(rangeElem.find("min").text)
+                    maxRange = Literal(rangeElem.find("max").text)
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, minRange))
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, maxRange)) 
 
@@ -152,7 +161,7 @@ class robot_graph():
                 pass #print(sensor.find(sensortype.tag).getchildren())
 
 if __name__ == "__main__":
-    robots = ['test/turtlebot3_burger.urdf']
+    robots = ['test/turtlebot3_burger.urdf', 'test/model.urdf']
     for robot in robots:
         print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
         robot_graph(robot)
