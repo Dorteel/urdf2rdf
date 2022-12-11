@@ -36,7 +36,7 @@ class robot_graph():
         self.robotKG.bind('self', self.robotNS)
         self.robotKG.bind('soma', self.SOMA)
         self.robotKG.bind('joints', self.jointNS)
-        #elf.robotKG.bind('sensorProperty', self.sensPropNS)
+        self.robotKG.bind('sensorProperty', self.sensPropNS)
         self.robotKG.bind('links', self.linksNS)
 
         self.robotKG.add((self.robotName, RDF.type, SOSA.Platform))
@@ -49,7 +49,7 @@ class robot_graph():
         self.find_joints()
         self.find_sensors()
         # Save the knowledgeGraph in the output folder
-        print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
+        self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl')
 
 
     def get_namespaces(self):
@@ -157,8 +157,6 @@ class robot_graph():
             if sensor.attrib['type'] == 'depth': sensortype = sensor.find('camera')
             if not sensortype: continue
             self.robotKG.add((sensNode, RDF.type, self.sensNS[sensor.attrib['type']]))
-            print(sensor.attrib['name'])
-            print(sensortype.tag)
             if sensortype.tag == 'ray':
                 # Relevant fields are: samples, minRange, maxRange, resolution
                 rangeElem = sensortype.find('range')
@@ -180,5 +178,5 @@ class robot_graph():
 if __name__ == "__main__":
     robots = ['test/pr2.urdf', 'test/turtlebot3_burger.urdf', 'test/locobot_wx250s.urdf']
     for robot in robots:
-        print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
+        # print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
         robot_graph(robot)

@@ -1,10 +1,10 @@
 @prefix joints: <http://example.org/pr2/joints/> .
 @prefix knowrob: <http://knowrob.org/kb/knowrob.owl#> .
 @prefix links: <http://example.org/pr2/links/> .
-@prefix ns1: <http://example.org/pr2/sensorProperties/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix self: <http://example.org/pr2/> .
+@prefix sensorProperty: <http://example.org/pr2/sensorProperties/> .
 @prefix soma: <http://www.ease-crc.org/ont/SOMA.owl#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix urdf: <http://knowrob.org/kb/urdf.owl#> .
@@ -1397,44 +1397,44 @@ links:wide_stereo_r_stereo_camera_optical_frame a urdf:Link ;
 <http://example.org/pr2/sensors/head_mount_ir_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "0.994837673637"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "0.994837673637"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/head_mount_prosilica_link_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.12050137978"^^xsd:float ;
-    ns1:hasImageHeight 240 ;
-    ns1:hasImageWidth 320 .
+    sensorProperty:hasFieldOfView "1.12050137978"^^xsd:float ;
+    sensorProperty:hasImageHeight 240 ;
+    sensorProperty:hasImageWidth 320 .
 
 <http://example.org/pr2/sensors/head_mount_prosilica_link_sim_pcd_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.12050137978"^^xsd:float ;
-    ns1:hasImageHeight 240 ;
-    ns1:hasImageWidth 320 .
+    sensorProperty:hasFieldOfView "1.12050137978"^^xsd:float ;
+    sensorProperty:hasImageHeight 240 ;
+    sensorProperty:hasImageWidth 320 .
 
 <http://example.org/pr2/sensors/head_mount_rgb_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "0.994837673637"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "0.994837673637"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/high_def_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "0.785398163397"^^xsd:float ;
-    ns1:hasImageHeight 2050 ;
-    ns1:hasImageWidth 2448 .
+    sensorProperty:hasFieldOfView "0.785398163397"^^xsd:float ;
+    sensorProperty:hasImageHeight 2050 ;
+    sensorProperty:hasImageWidth 2448 .
 
 <http://example.org/pr2/sensors/l_forearm_cam_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.57079632679"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "1.57079632679"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/l_gripper_l_finger_tip_contact_sensor> a <http://example.org/pr2/sensors/contact>,
         knowrob:SensorDevice,
@@ -1453,23 +1453,23 @@ links:wide_stereo_r_stereo_camera_optical_frame a urdf:Link ;
 <http://example.org/pr2/sensors/narrow_stereo_l_stereo_camera_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "0.785398163397"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "0.785398163397"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/narrow_stereo_r_stereo_camera_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "0.785398163397"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "0.785398163397"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/r_forearm_cam_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.57079632679"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "1.57079632679"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/r_gripper_l_finger_tip_contact_sensor> a <http://example.org/pr2/sensors/contact>,
         knowrob:SensorDevice,
@@ -1486,16 +1486,16 @@ links:wide_stereo_r_stereo_camera_optical_frame a urdf:Link ;
 <http://example.org/pr2/sensors/wide_stereo_l_stereo_camera_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.57079632679"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "1.57079632679"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/pr2/sensors/wide_stereo_r_stereo_camera_sensor> a <http://example.org/pr2/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.57079632679"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "1.57079632679"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 urdf:Robot rdfs:subClassOf sosa:Platform .
 

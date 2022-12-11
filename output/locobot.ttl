@@ -1,9 +1,9 @@
 @prefix joints: <http://example.org/locobot/joints/> .
 @prefix knowrob: <http://knowrob.org/kb/knowrob.owl#> .
-@prefix ns1: <http://example.org/locobot/sensorProperties/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix self: <http://example.org/locobot/> .
+@prefix sensorProperty: <http://example.org/locobot/sensorProperties/> .
 @prefix soma: <http://www.ease-crc.org/ont/SOMA.owl#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix urdf: <http://knowrob.org/kb/urdf.owl#> .
@@ -526,30 +526,30 @@ joints:wrist_rotate a urdf:RevoluteJoint ;
 <http://example.org/locobot/sensors/intel_d435_color> a <http://example.org/locobot/sensors/camera>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.211259"^^xsd:float ;
-    ns1:hasImageHeight 480 ;
-    ns1:hasImageWidth 640 .
+    sensorProperty:hasFieldOfView "1.211259"^^xsd:float ;
+    sensorProperty:hasImageHeight 480 ;
+    sensorProperty:hasImageWidth 640 .
 
 <http://example.org/locobot/sensors/intel_d435_depth> a <http://example.org/locobot/sensors/depth>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.487021"^^xsd:float ;
-    ns1:hasImageHeight 720 ;
-    ns1:hasImageWidth 1280 .
+    sensorProperty:hasFieldOfView "1.487021"^^xsd:float ;
+    sensorProperty:hasImageHeight 720 ;
+    sensorProperty:hasImageWidth 1280 .
 
 <http://example.org/locobot/sensors/intel_d435_ired1> a <http://example.org/locobot/sensors/camera>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.487021"^^xsd:float ;
-    ns1:hasImageHeight 720 ;
-    ns1:hasImageWidth 1280 .
+    sensorProperty:hasFieldOfView "1.487021"^^xsd:float ;
+    sensorProperty:hasImageHeight 720 ;
+    sensorProperty:hasImageWidth 1280 .
 
 <http://example.org/locobot/sensors/intel_d435_ired2> a <http://example.org/locobot/sensors/camera>,
         knowrob:SensorDevice,
         sosa:Sensor ;
-    ns1:hasFieldOfView "1.487021"^^xsd:float ;
-    ns1:hasImageHeight 720 ;
-    ns1:hasImageWidth 1280 .
+    sensorProperty:hasFieldOfView "1.487021"^^xsd:float ;
+    sensorProperty:hasImageHeight 720 ;
+    sensorProperty:hasImageWidth 1280 .
 
 urdf:Robot rdfs:subClassOf sosa:Platform .
 
