@@ -15,12 +15,20 @@ class robot_graph():
         self.namespaces = self.get_namespaces()
         # Graph
         self.name = self.model_root.attrib['name']
+
         self.KnowRob = Namespace("http://knowrob.org/kb/knowrob.owl#")
         self.URDF = Namespace("http://knowrob.org/kb/urdf.owl#")
         self.SOMA = Namespace("http://www.ease-crc.org/ont/SOMA.owl#")
         self.robotNS = Namespace("http://example.org/" + self.name + '/')
+        self.sensNS = Namespace(self.robotNS + 'sensors/')
+        self.linksNS = Namespace(self.robotNS + 'links/')
+        self.jointNS = Namespace(self.robotNS + 'joints/')
+        self.actuatorNS = Namespace(self.robotNS + 'actuators/')
+
+        
         self.robotName = URIRef("http://example.org/" + self.name)
         self.robotKG = Graph().add((self.robotName, RDF.type, self.URDF.Robot))
+
         self.robotKG.bind('urdf', self.URDF)
         self.robotKG.bind('knowrob', self.KnowRob)
         self.robotKG.bind('self', self.robotNS)
@@ -35,7 +43,7 @@ class robot_graph():
         self.find_joints()
         self.find_sensors()
         # Save the knowledgeGraph in the output folder
-        print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
+        #print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
 
 
     def get_namespaces(self):
@@ -56,9 +64,10 @@ class robot_graph():
          - geometry (box, cylinder, sphere or mesh)
          http://wiki.ros.org/urdf/XML/link
         '''
-        for link in self.model_root.findall(".//link"):
+        for link in self.model_root.findall("./link"):
             # Add the link with it's name to the Knowledge Graph
-            linkNode = self.robotNS[link.attrib['name']]
+            linkNode = self.linksNS[link.attrib['name']]
+            print(linkNode)
             self.robotKG.add((linkNode, RDF.type, self.URDF.Link))
             self.robotKG.add((self.robotName, self.URDF.hasLink, linkNode))
             self.robotKG.add((linkNode, self.URDF.hasURDFName, Literal(link.attrib['name'])))
@@ -96,20 +105,26 @@ class robot_graph():
 
         # Transmission joints are treated separately
         for actuator in self.model_root.findall("./transmission/actuator"):
-            actNode = self.robotNS[actuator.attrib['name']] # Create a node
+            actNode = self.actuatorNS[actuator.attrib['name']] # Create a node
             self.robotKG.add((actNode, RDF.type, SOSA.Actuator))    # Add as actuator
             self.robotKG.add((self.robotName, SOSA.hosts, actNode)) # Add as part of the robot
 
         for joint in self.model_root.findall("./joint"):
             # Add the joint with it's name to the Knowledge Graph
             #print(joint.attrib['type'])
-            jointNode = self.robotNS[joint.attrib['name']]
+            jointNode = self.jointNS[joint.attrib['name']]
             self.robotKG.add((self.robotName, self.URDF.hasJoint, jointNode))
             self.robotKG.add((jointNode, RDF.type, self.URDF[joint.attrib['type'].capitalize() + 'Joint']))
             self.robotKG.add((jointNode, self.URDF.hasURDFName, Literal(joint.attrib['name'])))
             if joint.attrib['type'] in ['revolute', 'prismatic']:
                 axis = joint.find('axis').attrib['xyz']
-                self.robotKG.add((jointNode, self.URDF.hasAxisVector, Literal(axis))) #TODO: Change to SOMA.array_double
+                self.robotKG.add((jointNode, self.URDF.hasAxisVector, Literal(axis)))
+                vel = Literal(joint.find('limit').attrib['velocity'], datatype=XSD.float)
+                self.robotKG.add((jointNode, self.URDF.hasMaxJointVelocity, vel))
+                lowLimit = Literal(joint.find('limit').attrib['lower'], datatype=XSD.float)
+                upLimit =  Literal(joint.find('limit').attrib['upper'], datatype=XSD.float)
+                self.robotKG.add((jointNode, self.URDF.hasLowerLimit, lowLimit))
+                self.robotKG.add((jointNode, self.URDF.hasUpperLimit, upLimit))
             parent = self.robotNS[joint.find('parent').attrib['link']]
             child = self.robotNS[joint.find('child').attrib['link']]
             self.robotKG.add((jointNode, self.URDF.hasParentLink, parent))
@@ -128,10 +143,11 @@ class robot_graph():
         sensorList = ["ray", "camera", "imu", "depth", "contact"]
         for sensorName in sensorList:
             sensorType = Literal(sensorName + "Sensor")
-            self.robotKG.add((self.robotNS.sensorType, RDF.type, SOSA.Sensor))
-            self.robotKG.add((self.robotNS.sensorType, RDF.type, self.KnowRob.SensorDevice))
+            self.robotKG.add((self.robotNS[sensorType], RDF.type, SOSA.Sensor))
+            self.robotKG.add((self.robotNS[sensorType], RDF.type, self.KnowRob.SensorDevice))
         for sensor in self.model_root.findall(".//sensor"):
-            sensNode = self.robotNS[sensor.attrib['name']] # Create a node
+            print(sensor.attrib['name'])
+            sensNode = self.sensNS[sensor.attrib['name']] # Create a node
             self.robotKG.add((sensNode, RDF.type, SOSA.Sensor))    # Add as sensor
             self.robotKG.add((self.robotName, SOSA.hosts, sensNode)) # Add as part of the robot
             self.robotKG.add((sensNode, RDF.type, self.KnowRob.SensorDevice)) 
@@ -161,7 +177,7 @@ class robot_graph():
                 pass #print(sensor.find(sensortype.tag).getchildren())
 
 if __name__ == "__main__":
-    robots = ['test/turtlebot3_burger.urdf', 'test/model.urdf']
+    robots = ['test/pr2.urdf', 'test/turtlebot3_burger.urdf', 'test/locobot_wx250s.urdf']
     for robot in robots:
         print('\n{}\n{}\n{}\n'.format('*'*len(robot), robot, '*'*len(robot)))
         robot_graph(robot)
