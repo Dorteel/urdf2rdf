@@ -1,4 +1,6 @@
+@prefix joints: <http://example.org/locobot/joints/> .
 @prefix knowrob: <http://knowrob.org/kb/knowrob.owl#> .
+@prefix ns1: <http://example.org/locobot/sensorProperties/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix self: <http://example.org/locobot/> .
@@ -9,38 +11,38 @@
 
 <http://example.org/locobot> a urdf:Robot,
         sosa:Platform ;
-    urdf:hasJoint <http://example.org/locobot/joints/ar_tag>,
-        <http://example.org/locobot/joints/arm_base_link_joint>,
-        <http://example.org/locobot/joints/base_joint>,
-        <http://example.org/locobot/joints/battery>,
-        <http://example.org/locobot/joints/camera>,
-        <http://example.org/locobot/joints/camera_tower>,
-        <http://example.org/locobot/joints/caster_back_joint>,
-        <http://example.org/locobot/joints/caster_front_joint>,
-        <http://example.org/locobot/joints/cliff_sensor_front_joint>,
-        <http://example.org/locobot/joints/cliff_sensor_left_joint>,
-        <http://example.org/locobot/joints/cliff_sensor_right_joint>,
-        <http://example.org/locobot/joints/ee_arm>,
-        <http://example.org/locobot/joints/ee_bar>,
-        <http://example.org/locobot/joints/ee_gripper>,
-        <http://example.org/locobot/joints/elbow>,
-        <http://example.org/locobot/joints/forearm_roll>,
-        <http://example.org/locobot/joints/gripper>,
-        <http://example.org/locobot/joints/gripper_bar>,
-        <http://example.org/locobot/joints/gyro_joint>,
-        <http://example.org/locobot/joints/left_finger>,
-        <http://example.org/locobot/joints/lidar>,
-        <http://example.org/locobot/joints/lidar_tower>,
-        <http://example.org/locobot/joints/pan>,
-        <http://example.org/locobot/joints/plate>,
-        <http://example.org/locobot/joints/right_finger>,
-        <http://example.org/locobot/joints/shoulder>,
-        <http://example.org/locobot/joints/tilt>,
-        <http://example.org/locobot/joints/waist>,
-        <http://example.org/locobot/joints/wheel_left_joint>,
-        <http://example.org/locobot/joints/wheel_right_joint>,
-        <http://example.org/locobot/joints/wrist_angle>,
-        <http://example.org/locobot/joints/wrist_rotate> ;
+    urdf:hasJoint joints:ar_tag,
+        joints:arm_base_link_joint,
+        joints:base_joint,
+        joints:battery,
+        joints:camera,
+        joints:camera_tower,
+        joints:caster_back_joint,
+        joints:caster_front_joint,
+        joints:cliff_sensor_front_joint,
+        joints:cliff_sensor_left_joint,
+        joints:cliff_sensor_right_joint,
+        joints:ee_arm,
+        joints:ee_bar,
+        joints:ee_gripper,
+        joints:elbow,
+        joints:forearm_roll,
+        joints:gripper,
+        joints:gripper_bar,
+        joints:gyro_joint,
+        joints:left_finger,
+        joints:lidar,
+        joints:lidar_tower,
+        joints:pan,
+        joints:plate,
+        joints:right_finger,
+        joints:shoulder,
+        joints:tilt,
+        joints:waist,
+        joints:wheel_left_joint,
+        joints:wheel_right_joint,
+        joints:wrist_angle,
+        joints:wrist_rotate ;
     urdf:hasLink <http://example.org/locobot/links/locobot/ar_tag_link>,
         <http://example.org/locobot/links/locobot/arm_base_link>,
         <http://example.org/locobot/links/locobot/base_footprint>,
@@ -134,77 +136,77 @@ self:raySensor a knowrob:SensorDevice,
 
 <http://example.org/locobot/actuators/wrist_rotate_motor> a sosa:Actuator .
 
-<http://example.org/locobot/joints/ar_tag> a urdf:FixedJoint ;
+joints:ar_tag a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/ar_tag_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/ee_arm_link> ;
     urdf:hasURDFName "ar_tag" .
 
-<http://example.org/locobot/joints/arm_base_link_joint> a urdf:FixedJoint ;
+joints:arm_base_link_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/arm_base_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/plate_link> ;
     urdf:hasURDFName "arm_base_link_joint" .
 
-<http://example.org/locobot/joints/base_joint> a urdf:FixedJoint ;
+joints:base_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_footprint> ;
     urdf:hasURDFName "base_joint" .
 
-<http://example.org/locobot/joints/battery> a urdf:FixedJoint ;
+joints:battery a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/battery_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/plate_link> ;
     urdf:hasURDFName "battery" .
 
-<http://example.org/locobot/joints/camera> a urdf:FixedJoint ;
+joints:camera a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/camera_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/tilt_link> ;
     urdf:hasURDFName "camera" .
 
-<http://example.org/locobot/joints/camera_tower> a urdf:FixedJoint ;
+joints:camera_tower a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/camera_tower_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "camera_tower" .
 
-<http://example.org/locobot/joints/caster_back_joint> a urdf:FixedJoint ;
+joints:caster_back_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/caster_back_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "caster_back_joint" .
 
-<http://example.org/locobot/joints/caster_front_joint> a urdf:FixedJoint ;
+joints:caster_front_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/caster_front_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "caster_front_joint" .
 
-<http://example.org/locobot/joints/cliff_sensor_front_joint> a urdf:FixedJoint ;
+joints:cliff_sensor_front_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/cliff_sensor_front_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "cliff_sensor_front_joint" .
 
-<http://example.org/locobot/joints/cliff_sensor_left_joint> a urdf:FixedJoint ;
+joints:cliff_sensor_left_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/cliff_sensor_left_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "cliff_sensor_left_joint" .
 
-<http://example.org/locobot/joints/cliff_sensor_right_joint> a urdf:FixedJoint ;
+joints:cliff_sensor_right_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/cliff_sensor_right_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "cliff_sensor_right_joint" .
 
-<http://example.org/locobot/joints/ee_arm> a urdf:FixedJoint ;
+joints:ee_arm a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/ee_arm_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/gripper_link> ;
     urdf:hasURDFName "ee_arm" .
 
-<http://example.org/locobot/joints/ee_bar> a urdf:FixedJoint ;
+joints:ee_bar a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/fingers_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/gripper_bar_link> ;
     urdf:hasURDFName "ee_bar" .
 
-<http://example.org/locobot/joints/ee_gripper> a urdf:FixedJoint ;
+joints:ee_gripper a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/ee_gripper_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/fingers_link> ;
     urdf:hasURDFName "ee_gripper" .
 
-<http://example.org/locobot/joints/elbow> a urdf:RevoluteJoint ;
+joints:elbow a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/upper_forearm_link> ;
     urdf:hasLowerLimit "-2.1467549799530254"^^xsd:float ;
@@ -213,7 +215,7 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "elbow" ;
     urdf:hasUpperLimit "1.6057029118347832"^^xsd:float .
 
-<http://example.org/locobot/joints/forearm_roll> a urdf:RevoluteJoint ;
+joints:forearm_roll a urdf:RevoluteJoint ;
     urdf:hasAxisVector "1 0 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/lower_forearm_link> ;
     urdf:hasLowerLimit "-3.141582653589793"^^xsd:float ;
@@ -222,22 +224,22 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "forearm_roll" ;
     urdf:hasUpperLimit "3.141582653589793"^^xsd:float .
 
-<http://example.org/locobot/joints/gripper> a urdf:ContinuousJoint ;
+joints:gripper a urdf:ContinuousJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/gripper_prop_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/ee_arm_link> ;
     urdf:hasURDFName "gripper" .
 
-<http://example.org/locobot/joints/gripper_bar> a urdf:FixedJoint ;
+joints:gripper_bar a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/gripper_bar_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/ee_arm_link> ;
     urdf:hasURDFName "gripper_bar" .
 
-<http://example.org/locobot/joints/gyro_joint> a urdf:FixedJoint ;
+joints:gyro_joint a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/gyro_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "gyro_joint" .
 
-<http://example.org/locobot/joints/left_finger> a urdf:PrismaticJoint ;
+joints:left_finger a urdf:PrismaticJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/left_finger_link> ;
     urdf:hasLowerLimit "0.015"^^xsd:float ;
@@ -246,17 +248,17 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "left_finger" ;
     urdf:hasUpperLimit "0.037"^^xsd:float .
 
-<http://example.org/locobot/joints/lidar> a urdf:FixedJoint ;
+joints:lidar a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/laser_frame_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/lidar_tower_link> ;
     urdf:hasURDFName "lidar" .
 
-<http://example.org/locobot/joints/lidar_tower> a urdf:FixedJoint ;
+joints:lidar_tower a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/lidar_tower_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/camera_tower_link> ;
     urdf:hasURDFName "lidar_tower" .
 
-<http://example.org/locobot/joints/pan> a urdf:RevoluteJoint ;
+joints:pan a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 0 1" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/pan_link> ;
     urdf:hasLowerLimit "-1.5707963267948966"^^xsd:float ;
@@ -265,12 +267,12 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "pan" ;
     urdf:hasUpperLimit "1.5707963267948966"^^xsd:float .
 
-<http://example.org/locobot/joints/plate> a urdf:FixedJoint ;
+joints:plate a urdf:FixedJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/plate_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "plate" .
 
-<http://example.org/locobot/joints/right_finger> a urdf:PrismaticJoint ;
+joints:right_finger a urdf:PrismaticJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/right_finger_link> ;
     urdf:hasLowerLimit "-0.037"^^xsd:float ;
@@ -279,7 +281,7 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "right_finger" ;
     urdf:hasUpperLimit "-0.015"^^xsd:float .
 
-<http://example.org/locobot/joints/shoulder> a urdf:RevoluteJoint ;
+joints:shoulder a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/upper_arm_link> ;
     urdf:hasLowerLimit "-1.8849555921538759"^^xsd:float ;
@@ -288,7 +290,7 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "shoulder" ;
     urdf:hasUpperLimit "1.9896753472735358"^^xsd:float .
 
-<http://example.org/locobot/joints/tilt> a urdf:RevoluteJoint ;
+joints:tilt a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/tilt_link> ;
     urdf:hasLowerLimit "-1.5707963267948966"^^xsd:float ;
@@ -297,7 +299,7 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "tilt" ;
     urdf:hasUpperLimit "1.3089969389957472"^^xsd:float .
 
-<http://example.org/locobot/joints/waist> a urdf:RevoluteJoint ;
+joints:waist a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 0 1" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/shoulder_link> ;
     urdf:hasLowerLimit "-3.141582653589793"^^xsd:float ;
@@ -306,17 +308,17 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "waist" ;
     urdf:hasUpperLimit "3.141582653589793"^^xsd:float .
 
-<http://example.org/locobot/joints/wheel_left_joint> a urdf:ContinuousJoint ;
+joints:wheel_left_joint a urdf:ContinuousJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/wheel_left_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "wheel_left_joint" .
 
-<http://example.org/locobot/joints/wheel_right_joint> a urdf:ContinuousJoint ;
+joints:wheel_right_joint a urdf:ContinuousJoint ;
     urdf:hasChildLink <http://example.org/locobot/locobot/wheel_right_link> ;
     urdf:hasParentLink <http://example.org/locobot/locobot/base_link> ;
     urdf:hasURDFName "wheel_right_joint" .
 
-<http://example.org/locobot/joints/wrist_angle> a urdf:RevoluteJoint ;
+joints:wrist_angle a urdf:RevoluteJoint ;
     urdf:hasAxisVector "0 1 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/wrist_link> ;
     urdf:hasLowerLimit "-1.7453292519943295"^^xsd:float ;
@@ -325,7 +327,7 @@ self:raySensor a knowrob:SensorDevice,
     urdf:hasURDFName "wrist_angle" ;
     urdf:hasUpperLimit "2.1467549799530254"^^xsd:float .
 
-<http://example.org/locobot/joints/wrist_rotate> a urdf:RevoluteJoint ;
+joints:wrist_rotate a urdf:RevoluteJoint ;
     urdf:hasAxisVector "1 0 0" ;
     urdf:hasChildLink <http://example.org/locobot/locobot/gripper_link> ;
     urdf:hasLowerLimit "-3.141582653589793"^^xsd:float ;
@@ -521,20 +523,33 @@ self:raySensor a knowrob:SensorDevice,
     soma:hasFilePath "package://interbotix_xslocobot_descriptions/meshes/mobile_wx250s_meshes/mobile_wx250s_6_wrist.stl" ;
     soma:hasMassValue 8.4957e-02 .
 
-<http://example.org/locobot/sensors/intel_d435_color> a self:camera,
+<http://example.org/locobot/sensors/intel_d435_color> a <http://example.org/locobot/sensors/camera>,
         knowrob:SensorDevice,
-        sosa:Sensor .
+        sosa:Sensor ;
+    ns1:hasFieldOfView "1.211259"^^xsd:float ;
+    ns1:hasImageHeight 480 ;
+    ns1:hasImageWidth 640 .
 
-<http://example.org/locobot/sensors/intel_d435_depth> a knowrob:SensorDevice,
-        sosa:Sensor .
-
-<http://example.org/locobot/sensors/intel_d435_ired1> a self:camera,
+<http://example.org/locobot/sensors/intel_d435_depth> a <http://example.org/locobot/sensors/depth>,
         knowrob:SensorDevice,
-        sosa:Sensor .
+        sosa:Sensor ;
+    ns1:hasFieldOfView "1.487021"^^xsd:float ;
+    ns1:hasImageHeight 720 ;
+    ns1:hasImageWidth 1280 .
 
-<http://example.org/locobot/sensors/intel_d435_ired2> a self:camera,
+<http://example.org/locobot/sensors/intel_d435_ired1> a <http://example.org/locobot/sensors/camera>,
         knowrob:SensorDevice,
-        sosa:Sensor .
+        sosa:Sensor ;
+    ns1:hasFieldOfView "1.487021"^^xsd:float ;
+    ns1:hasImageHeight 720 ;
+    ns1:hasImageWidth 1280 .
+
+<http://example.org/locobot/sensors/intel_d435_ired2> a <http://example.org/locobot/sensors/camera>,
+        knowrob:SensorDevice,
+        sosa:Sensor ;
+    ns1:hasFieldOfView "1.487021"^^xsd:float ;
+    ns1:hasImageHeight 720 ;
+    ns1:hasImageWidth 1280 .
 
 urdf:Robot rdfs:subClassOf sosa:Platform .
 

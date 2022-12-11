@@ -869,7 +869,7 @@
    <!-- ********************************** Intel D435 **********************************  -->
   <sensor name="intel_d435_color" type="camera">
         <camera name="intel_d435">
-          <horizontal_fov>${69.4*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>1.211259</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -891,7 +891,7 @@
   </sensor>
   <sensor name="intel_d435_ired1" type="camera">
         <camera name="intel_d435">
-          <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>1.487021</horizontal_fov>
           <image>
             <width>1280</width>
             <height>720</height>
@@ -913,7 +913,7 @@
   </sensor>
   <sensor name="intel_d435_ired2" type="camera">
         <camera name="intel_d435">
-          <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>1.487021</horizontal_fov>
           <image>
             <width>1280</width>
             <height>720</height>
@@ -935,7 +935,7 @@
   </sensor>
   <sensor name="intel_d435_depth" type="depth">
         <camera name="intel_d435">
-          <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
+          <horizontal_fov>1.487021</horizontal_fov>
           <image>
             <width>1280</width>
             <height>720</height>

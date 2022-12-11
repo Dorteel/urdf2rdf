@@ -24,6 +24,8 @@ class robot_graph():
         self.linksNS = Namespace(self.robotNS + 'links/')
         self.jointNS = Namespace(self.robotNS + 'joints/')
         self.actuatorNS = Namespace(self.robotNS + 'actuators/')
+        self.sensPropNS = Namespace(self.robotNS + 'sensorProperties/')
+
 
         
         self.robotName = URIRef("http://example.org/" + self.name)
@@ -33,6 +35,10 @@ class robot_graph():
         self.robotKG.bind('knowrob', self.KnowRob)
         self.robotKG.bind('self', self.robotNS)
         self.robotKG.bind('soma', self.SOMA)
+        self.robotKG.bind('joints', self.jointNS)
+        #elf.robotKG.bind('sensorProperty', self.sensPropNS)
+        self.robotKG.bind('links', self.linksNS)
+
         self.robotKG.add((self.robotName, RDF.type, SOSA.Platform))
         self.robotKG.add((self.robotName, self.URDF.hasURDFName, Literal(self.name)))
         # Adding some ontology alignment statement
@@ -43,7 +49,7 @@ class robot_graph():
         self.find_joints()
         self.find_sensors()
         # Save the knowledgeGraph in the output folder
-        #print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
+        print(self.robotKG.serialize(destination='output/' + self.name + ".ttl", format='ttl'))
 
 
     def get_namespaces(self):
@@ -67,7 +73,6 @@ class robot_graph():
         for link in self.model_root.findall("./link"):
             # Add the link with it's name to the Knowledge Graph
             linkNode = self.linksNS[link.attrib['name']]
-            print(linkNode)
             self.robotKG.add((linkNode, RDF.type, self.URDF.Link))
             self.robotKG.add((self.robotName, self.URDF.hasLink, linkNode))
             self.robotKG.add((linkNode, self.URDF.hasURDFName, Literal(link.attrib['name'])))
@@ -111,7 +116,6 @@ class robot_graph():
 
         for joint in self.model_root.findall("./joint"):
             # Add the joint with it's name to the Knowledge Graph
-            #print(joint.attrib['type'])
             jointNode = self.jointNS[joint.attrib['name']]
             self.robotKG.add((self.robotName, self.URDF.hasJoint, jointNode))
             self.robotKG.add((jointNode, RDF.type, self.URDF[joint.attrib['type'].capitalize() + 'Joint']))
@@ -129,8 +133,6 @@ class robot_graph():
             child = self.robotNS[joint.find('child').attrib['link']]
             self.robotKG.add((jointNode, self.URDF.hasParentLink, parent))
             self.robotKG.add((jointNode, self.URDF.hasChildLink, child))
-            
-            #print(joint)
 
 
     def find_sensors(self):
@@ -146,15 +148,17 @@ class robot_graph():
             self.robotKG.add((self.robotNS[sensorType], RDF.type, SOSA.Sensor))
             self.robotKG.add((self.robotNS[sensorType], RDF.type, self.KnowRob.SensorDevice))
         for sensor in self.model_root.findall(".//sensor"):
-            print(sensor.attrib['name'])
             sensNode = self.sensNS[sensor.attrib['name']] # Create a node
             self.robotKG.add((sensNode, RDF.type, SOSA.Sensor))    # Add as sensor
             self.robotKG.add((self.robotName, SOSA.hosts, sensNode)) # Add as part of the robot
             self.robotKG.add((sensNode, RDF.type, self.KnowRob.SensorDevice)) 
             # Add the properties of the sensor
             sensortype = sensor.find(sensor.attrib['type'])
+            if sensor.attrib['type'] == 'depth': sensortype = sensor.find('camera')
             if not sensortype: continue
-            self.robotKG.add((sensNode, RDF.type, self.robotNS[sensor.attrib['type']]))
+            self.robotKG.add((sensNode, RDF.type, self.sensNS[sensor.attrib['type']]))
+            print(sensor.attrib['name'])
+            print(sensortype.tag)
             if sensortype.tag == 'ray':
                 # Relevant fields are: samples, minRange, maxRange, resolution
                 rangeElem = sensortype.find('range')
@@ -164,17 +168,14 @@ class robot_graph():
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, minRange))
                     self.robotKG.add((sensNode,self.KnowRob.hasSensorRange, maxRange)) 
 
-            elif sensortype.tag == 'camera':
-                # Relevant fields are: resolution
-                pass #print(sensortype.getchildren())
-            elif sensortype.tag == 'imu':
-                pass #print(sensortype.getchildren())   
-            elif sensortype.tag == 'depth':
-                pass #print(sensor.find(sensortype.tag).getchildren())
-            elif sensortype.tag == 'contact':
-                pass #print(sensor.find(sensortype.tag).getchildren())
-            else:
-                pass #print(sensor.find(sensortype.tag).getchildren())
+            elif sensortype.tag in ['camera', 'depth']:
+                
+                fov = Literal(sensortype.find('horizontal_fov').text, datatype=XSD.float)
+                imgWidth = Literal(sensortype.find('image/width').text, datatype=XSD.integer)
+                imgHeight = Literal(sensortype.find('image/height').text, datatype=XSD.integer)
+                self.robotKG.add((sensNode, self.sensPropNS.hasFieldOfView, fov))
+                self.robotKG.add((sensNode, self.sensPropNS.hasImageWidth, imgWidth))
+                self.robotKG.add((sensNode, self.sensPropNS.hasImageHeight, imgHeight))
 
 if __name__ == "__main__":
     robots = ['test/pr2.urdf', 'test/turtlebot3_burger.urdf', 'test/locobot_wx250s.urdf']
